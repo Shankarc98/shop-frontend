@@ -1,0 +1,26 @@
+.location-page{
+    height: 100%; 
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 0 auto;
+}
+.location-container{
+    margin: auto;
+    width: 800px;
+    background-color: azure;
+}
+.map{
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 368px){
+    
+    .location-container{
+        width: 200px;        
+    }
+    
+
+}

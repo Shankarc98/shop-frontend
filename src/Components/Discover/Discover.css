@@ -1,0 +1,11 @@
+.discover-container{
+    height: 200px;
+    width: 300px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    object-fit: cover;
+    color: white;
+    font-weight: bolder;
+    font-size:larger;
+}

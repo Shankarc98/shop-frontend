@@ -1,0 +1,59 @@
+
+.dashboard{
+    
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0; 
+    background-color: white;
+    z-index: 1000;
+    margin: 0 auto;
+}
+.logo{
+    height: 100%;
+    width: 180px;
+}
+.searchbar-container{
+    background-color: ghostwhite;
+    display: flex;
+    gap:0.5rem;
+    border-radius: 40px;
+}
+.searchbar{
+    border: none;
+    outline: none;
+    background-color: ghostwhite;
+    border-radius: 40px;
+}
+.navigation-container{
+    display: flex;
+    gap: 0.5rem;
+}
+.navigation-btn{
+    border: none;
+    background: transparent;
+    color: #800020;
+    
+}
+
+/*Mobiles*/
+
+@media (max-width: 480px){
+    .dashboard{
+        flex-direction: column;
+        height: 100px;
+        flex-wrap: nowrap;
+        gap: 1rem;
+    }
+    .logo{
+        width: 150px;
+        height: 65px;
+        margin-top: 30px;        
+    }
+    .navigation-btn{
+        font-size:x-small;
+    }
+}

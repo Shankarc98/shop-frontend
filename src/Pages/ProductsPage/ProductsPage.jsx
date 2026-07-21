@@ -1,0 +1,49 @@
+import Dashboard from "../../Components/Dashboard/Dashboard"
+import Footer from "../../Components/Footer/Footer"
+import Product from "../../Components/Product/Product"
+import getProducts from "../../utils/helpers"
+import {useState, useEffect} from "react"; 
+import  "../../Components/Footer/Footer.css"
+import "../../Components/Dashboard/Dashboard.css"
+import "../../Components/Product/Product.css"
+import "./ProductsPage.css"
+
+function ProductsPage(){
+    const[products, setProducts] = useState([]); 
+
+    useEffect(() => {
+        
+        async function getData(){
+            let arr = await getProducts();
+            setProducts(arr);
+        }
+        
+        getData();
+    }, []);
+    
+    return <div className = "product-page">
+        <Dashboard />
+
+        <h2 className = "page-title">Our Products</h2>
+        <div className = "products-container">
+            {
+                products.map(i => <Product 
+                                key = {i.id}
+                                image = {i.image}
+                                name = {i.name}
+                                price = {"₹ " + i.price}
+                                des1 = {i.des1}
+                                des2 = {i.des2}
+                                des3 = {i.des3}                    
+                            />)
+            }
+        </div>
+        
+        <div className = "footer-container">
+            <Footer />
+        </div>
+        
+    </div>
+}
+
+export default ProductsPage; 

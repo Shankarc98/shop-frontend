@@ -1,0 +1,34 @@
+.admin-product-card{
+    width: 75%;
+    height: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.admin-product-image{
+    width: 180px;
+    height: 150px;
+    border-radius: 20px;
+}
+
+.admin-product-info{
+    display: flex;
+    flex-direction: column;
+}
+.admin-product-name-price{
+    display: flex;
+    gap: 2rem;
+}
+
+
+.manage-button-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.manage-button{
+    border-radius: 20px;
+    border: none;
+}

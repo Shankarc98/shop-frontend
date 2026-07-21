@@ -1,0 +1,26 @@
+.product-card{
+    width: 190px;
+    height: 384px;
+    border-radius: 20px;
+    background-color: beige;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.product-image{
+    height: 40%;
+    width: 90%;
+    border-radius: 20px;
+}
+.product-name{
+    font-size: large;
+}
+.product-price{
+    font-size: medium;
+}
+.product-description{
+    font-size: small;
+}

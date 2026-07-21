@@ -1,0 +1,37 @@
+.carousel{
+    height: 450px;
+    margin-top: 90px;
+}
+
+.carousel-inner .active{
+    height: 450px;
+    
+}
+.carousel-item{
+    height: 450px;
+}
+.shop-img{
+    height: 100%;
+    width: 80%;
+    display: block;
+    margin: auto;
+}
+
+.visually-hidden{
+    color: black;
+}
+
+
+/*Mobiles*/
+@media (max-width: 480px){
+    .carousel{
+        height: 300px;
+        margin-top: 180px;
+    }
+    .carousel-inner .active{
+        height: 300px;
+    }
+    .carousel-item{
+        height: 300px;
+    }
+}

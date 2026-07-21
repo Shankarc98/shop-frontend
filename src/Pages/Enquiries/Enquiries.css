@@ -1,0 +1,18 @@
+.enquiries-page{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.admin-title{
+    margin: 0 auto;
+}
+
+.enquiry-cards-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+}

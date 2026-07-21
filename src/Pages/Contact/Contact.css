@@ -1,0 +1,171 @@
+.contact-page{
+    height: 100%; 
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 0 auto;
+}
+.contact-container{
+    display: grid;
+    grid-template-columns: 1fr 2fr; 
+    grid-template-rows: 200px 200px 200px;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.opening-hrs-container{
+    grid-column-start: 1;
+    grid-column-end: 2; 
+    grid-row-start: 1; 
+    grid-row-end: 2;
+}
+.contact-field{
+    margin-bottom: 0;
+}
+.address-container{
+    grid-column-start: 1;
+    grid-column-end: 2; 
+    grid-row-start: 2; 
+    grid-row-end: 3; 
+}
+
+.email-container{
+    grid-column-start: 1; 
+    grid-column-end: 2; 
+    grid-row-start: 3; 
+    grid-row-end: 4;
+    margin-top: 2rem;
+}
+
+.message-container{
+    grid-column-start: 2; 
+    grid-column-end: 3; 
+    grid-row-start: 1; 
+    grid-row-end: 4; 
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 45px 45px 45px 200px;
+    gap: 2rem;
+}
+.message-description{
+    grid-column-start: 1; 
+    grid-column-end: 3;
+    grid-row-start: 1; 
+    grid-row-end: 2; 
+}
+.message{
+    display: flex;
+    padding: 0 10px;
+    font-size: 0.8rem;
+}
+.name-input{
+    grid-column-start: 1; 
+    grid-column-end: 2; 
+    grid-row-start: 2; 
+    grid-row-end: 3;
+}
+.email.input{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3; 
+}
+.subject-input{
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    grid-row-start: 3; 
+    grid-row-end: 4; 
+}
+.message-input{
+    grid-column-start: 1;
+    grid-column-end: 3; 
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+.submit-message{
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 20px;
+    margin-left: 200px;
+    color: white;
+    background-color: black;
+    
+}
+
+@media(max-width: 368px){
+    .contact-container{
+        width: 90%;
+        grid-template-columns: 100%;
+        grid-template-rows: 200px 200px 100px 700px;
+    }
+    .opening-hrs-container{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .address-container{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .email-container{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+    
+    .message-container{
+        margin-top: 2rem;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 4;
+        grid-row-end: 5;
+
+        grid-template-columns: 1fr;
+        grid-template-rows: 45px 45px 45px 45px 200px 30px;
+    }
+    .message-description{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .name-input{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .email.input{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+    .subject-input{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 4;
+        grid-row-end: 5;
+    }
+    .message-input{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 5;
+        grid-row-end: 6;
+    }
+    .submit-message{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 6;
+        grid-row-end: 7;
+        margin: 0 auto;
+    }
+}
