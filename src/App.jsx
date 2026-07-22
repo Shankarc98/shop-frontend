@@ -8,7 +8,6 @@ import Contact from "./Pages/Contact/Contact"
 import ManageProducts from "./Pages/ManageProducts/ManageProducts"
 import Enquiries from "./Pages/Enquiries/Enquiries"
 import AdminLogin from "./Pages/AdminLogin/AdminLogin"
-import Test from "./Test/Test"
 
 function App() {
   
@@ -22,7 +21,6 @@ function App() {
       <Route path = "/adminLogin" element = {<AdminLogin />}/>
       <Route path = "/manageProducts" element = {<ManageProducts />}/>
       <Route path = "/manageEnquiries" element = {<Enquiries />} />
-      <Route path = "/test" element = {<Test />}/>      
     </Routes>
 }
 

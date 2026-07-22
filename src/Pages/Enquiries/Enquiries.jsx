@@ -18,7 +18,6 @@ function Enquiries(){
     async function getEnquiries(){
         const url = import.meta.env.VITE_API_URL; 
 
-
         try{
             const token = JSON.parse(localStorage.getItem('token'));
 
@@ -42,7 +41,7 @@ function Enquiries(){
         <div className = "enquiry-cards-container">
 
             {
-                enquiries.map(e => {
+                enquiries ? enquiries.map(e => {
                    return <EnquiryCard 
                         key = {e.id}
                         id = {e.id}
@@ -53,7 +52,7 @@ function Enquiries(){
                         setEnquiries = {setEnquiries}
                         getEnquiries = {getEnquiries}
                     />
-                })
+                }) : null
             }
         </div>
     </div>

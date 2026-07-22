@@ -9,7 +9,7 @@ function Dashboard(props){
     
     useEffect(() => {
         function handleResize(){
-            setMobile(window.innerWidth <= 368);
+            setMobile(window.innerWidth <= 468);
             
         };
 

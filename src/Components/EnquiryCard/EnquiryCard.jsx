@@ -6,13 +6,18 @@ function EnquiryCard(props){
     async function handleDelete(){
         const url = import.meta.env.VITE_API_URL; 
 
+        const token = JSON.parse(localStorage.getItem('token'));
 
         try{
-            await axios.delete(`${url}/deleteEnquiry/${props.id}`);
-            
-            const response = await props.getEnquiries();
+            const headers = {
+                Authorization : `Bearer ${token}` 
+            }
 
-            props.setEnquiries(response);
+            console.log(headers);
+            await axios.delete(`${url}/deleteEnquiry/${props.id}`, {headers});
+            
+            await props.getEnquiries();
+            
 
         }catch(err){
             console.log(err.stack);

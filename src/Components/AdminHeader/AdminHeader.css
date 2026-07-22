@@ -9,3 +9,24 @@
 .dashboard-title{
     color: #800020;
 }
+
+@media(max-width: 468px){
+    .admin-header{
+        flex-direction: column;
+    }
+
+    .logo{
+        margin: 0 auto;
+        width: 150px;
+        height: 65px;
+    }
+    .dashboard-title{
+        margin: 0 auto;
+        margin-top: 1rem;
+    }
+    .navigation-container{
+        margin: 0 auto;
+        margin-top: 1rem;
+    }
+    
+}
