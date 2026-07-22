@@ -29,9 +29,9 @@ function ProductsPage(){
             {
                 products.map(i => <Product 
                                 key = {i.id}
-                                image = {i.image}
+                                image = {i.image_url}
                                 name = {i.name}
-                                price = {"₹ " + i.price}
+                                price = {i.price}
                                 des1 = {i.des1}
                                 des2 = {i.des2}
                                 des3 = {i.des3}                    

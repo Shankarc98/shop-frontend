@@ -6,6 +6,8 @@ import "./ManageCard.css";
 function ManageCard(props){
     const edit = props.edit;
     const id = edit.id;
+    const image_id = edit.image_id;
+    const image_url = edit.image_url;
     const [name, setName] = useState(edit.name);
     const [price, setPrice] = useState(edit.price);
     const [des1, setDes1] = useState(edit.des1);
@@ -38,15 +40,12 @@ function ManageCard(props){
 
         event.preventDefault();
         if(props.operation == "Add Product") handleAdd();
-        else handleEdit();
-        const arr = await getProducts();
-
-        props.data(arr);
+        else handleEdit();        
+        
         props.close();
     }
 
-    async function handleAdd(){
-
+    async function handleAdd(){        
         
         formData.append("name", name);
         formData.append("image", image);
@@ -57,7 +56,6 @@ function ManageCard(props){
         const headers = {
             Authorization: `Bearer ${token}`
         }
-        console.log(headers);
         try{
             await axios.post(`${url}/addProduct`, formData, {
                 headers : {
@@ -65,7 +63,8 @@ function ManageCard(props){
                 }
             });
 
-            
+            const arr = await getProducts();
+            props.data(arr);
             
         }catch(err){
             console.log(err.stack);
@@ -74,18 +73,26 @@ function ManageCard(props){
 
     async function handleEdit(){
         
-        const body = {
-            id : id,
-            name : name,
-            image : edit.image,
-            price: price,
-            des1: des1,
-            des2: des2,
-            des3: des3
+        formData.append("name", name);
+        formData.append("id", id);
+        if(image){
+            formData.append("image", image);
+            console.log(image);
         }
+        else{
+            formData.append("image_id", image_id);
+            formData.append("image_url", image_url);
+            console.log(image_id, image_url);
+        }
+        formData.append("price", price);
+        formData.append("des1", des1);
+        formData.append("des2", des2);
+        formData.append("des3", des3);
         
+        console.log(name, price, des1, des2, des3);
+
         try{
-            await axios.put(`${url}/editProduct`, body, {
+            await axios.put(`${url}/editProduct`, formData, {
                 headers : {
                     Authorization : `Bearer ${token}`
                 }
@@ -103,23 +110,28 @@ function ManageCard(props){
     return <div className = "manage-card" >
      
      <div className = "manage-card-title">
-        <h4>{props.operation}</h4>
+        <h4 className = "operation-title">{props.operation}</h4>
         <button onClick = {props.close} className = "cancel-button">x</button>
      </div>     
           
      <form onSubmit = {handleSubmit} className = "manage-form" >
-        
+        <label className = "input-label" htmlFor="name">Name of the Product</label>
         <input onChange = {handleName} className = "manage-input" type = "text" value = {name} placeholder="Enter Product Name" required/>
         
+        <label className = "input-label" htmlFor="price">Price of the Product</label>
         <input onChange = {handlePrice} className = "manage-input" type = "number" value = {price} placeholder="Enter Product Price" required/>
 
+        <label className = "input-label" htmlFor="des1">Give a description</label>
         <input onChange = {handleDes1} className = "manage-input" type = "text" value = {des1} placeholder="Enter Description 1"/>
 
+        <label className = "input-label" htmlFor="des2">Give a description</label>
         <input onChange = {handleDes2} className = "manage-input" type = "text" value = {des2} placeholder="Enter Description 2"/>
 
+        <label className = "input-label" htmlFor="des3">Give a description</label>
         <input onChange = {handleDes3} className = "manage-input" type = "text" value = {des3} placeholder="Enter Description 3"/>
 
-        <input onChange = {(e) => {setImage(e.target.files[0])}} type = "file" accept="images/*"/>
+        <label className = "input-label" htmlFor="file">Upload a picture of the product</label>
+        <input onChange = {(e) => {setImage(e.target.files[0])}} type = "file" accept="images/*" />
 
         <input  className = "submit-button" type = "submit" />
     </form> 

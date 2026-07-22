@@ -96,7 +96,10 @@
     
 }
 
-@media(max-width: 368px){
+@media(max-width: 468px){
+    .contact-page{
+        width: 100%;
+    }
     .contact-container{
         width: 90%;
         grid-template-columns: 100%;

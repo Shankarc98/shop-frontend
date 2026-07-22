@@ -15,12 +15,12 @@ function AdminProductCard(props){
         const url = import.meta.env.VITE_API_URL; 
         
         try{
-            await axios.delete(`${url}/deleteProduct/${props.id}`, {
+            await axios.delete(`${url}/deleteProduct?id=${props.id}&image_id=${props.image_id}`, {
                 headers : {
                     Authorization : `Bearer ${token}`
                 }
             });
-        
+            
             const response = await getProducts();
 
             await props.setProducts(response);
@@ -32,7 +32,7 @@ function AdminProductCard(props){
     
 
     return <div className = "admin-product-card">
-        <img className = "admin-product-image" src = {"http://localhost:3000" + props.image} alt = {props.alt}/>
+        <img className = "admin-product-image" src = {props.image} alt = {props.alt}/>
         <div className = "admin-product-info">
             <div className = "admin-product-name-price">
                 <p className="admin-product-name">{"Product name: " + props.name}</p>

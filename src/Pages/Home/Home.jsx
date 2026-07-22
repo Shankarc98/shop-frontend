@@ -55,7 +55,7 @@ function Home(){
             
             <Product 
                 key = {d.id}
-                image = {d.image}
+                image = {d.image_url}
                 name = {d.name}
                 price = {d.price}
                 des1 = {d.des1}
@@ -68,7 +68,6 @@ function Home(){
         </div>
         
     </div>
-    <button onClick={() => navigate("/test")}>Admin</button>
     <div className="footer-container">
       <Footer />
     </div>

@@ -57,7 +57,8 @@ function ManageProducts(){
                     return <AdminProductCard 
                         key = {p.id}
                         id = {p.id}
-                        image = {p.image}
+                        image = {p.image_url}
+                        image_id = {p.image_id}
                         name = {p.name}
                         price = {p.price}
                         des1 = {p.des1}

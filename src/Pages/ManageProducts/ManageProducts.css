@@ -18,3 +18,9 @@
     border: none;
 }
 
+.admin-products-list{
+    display: flex;
+    flex-direction: column;   
+    gap: 1rem;
+}
+
