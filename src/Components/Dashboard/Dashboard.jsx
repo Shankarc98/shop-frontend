@@ -23,14 +23,14 @@ function Dashboard(props){
     const isNav = true;
     
     return <div className="dashboard">
-        <img className="logo" src="images/logo.png" alt="logo"/>
+        <img className="logo" src="images/logo.png" alt="logo" onClick = {() => navigate("/")}/>
         <div style = {{display : isNav ? 'flex' : 'none'}}  className="navigation-container">    
-            <NavigationButton handleClick = {() => navigate("/")} name="Home"/>
-            <NavigationButton handleClick = {() => navigate("/aboutus")} name="About us"/>
-            <NavigationButton handleClick = {() => navigate("/products")} name="Products"/>
-            <NavigationButton handleClick = {() => navigate("/services")} name="Services"/>
+            {!isMobile ? <NavigationButton handleClick = {() => navigate("/")} name="Home"/> : null}
+            {!isMobile ? <NavigationButton handleClick = {() => navigate("/aboutus")} name="About us"/>: null}
+            {!isMobile ? <NavigationButton handleClick = {() => navigate("/products")} name="Products"/>: null}
+            {!isMobile ? <NavigationButton handleClick = {() => navigate("/services")} name="Services"/> : null}
             {!isMobile ? <NavigationButton handleClick = {() => navigate("/location")} name="Location"/> : null}
-            <NavigationButton handleClick = {() => navigate("/contact")} name="Contact us"/>
+            {!isMobile ? <NavigationButton handleClick = {() => navigate("/contact")} name="Contact us"/> : null}
         </div>
     </div>
 }

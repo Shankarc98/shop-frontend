@@ -8,6 +8,7 @@ import Contact from "./Pages/Contact/Contact"
 import ManageProducts from "./Pages/ManageProducts/ManageProducts"
 import Enquiries from "./Pages/Enquiries/Enquiries"
 import AdminLogin from "./Pages/AdminLogin/AdminLogin"
+import ProductCategory from "./Pages/ProductCategory/ProductCategory";
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
       <Route path = "/adminLogin" element = {<AdminLogin />}/>
       <Route path = "/manageProducts" element = {<ManageProducts />}/>
       <Route path = "/manageEnquiries" element = {<Enquiries />} />
+      <Route path = "/productCategory" element = {<ProductCategory />}/>
     </Routes>
 }
 

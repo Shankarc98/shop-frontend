@@ -1,9 +1,11 @@
 import Dashboard from "../../Components/Dashboard/Dashboard";
 import Footer from "../../Components/Footer/Footer"
+import MobileNavBar from "../../Components/MobileNavBar/MobileNavBar";
 import {useState} from "react"; 
 import axios from "axios";
 import "./Contact.css";
 import "../../Components/Dashboard/Dashboard.css";
+import "../../Components/MobileNavBar/MobileNavBar.css"
 import "../../Components/Footer/Footer.css";
 
 function Contact(){
@@ -76,6 +78,8 @@ function Contact(){
                 <input className = "submit-message" type = "submit"/>
             </form>
         </div>
+
+        <MobileNavBar />
         <div className="footer-container">
             <Footer />
         </div>

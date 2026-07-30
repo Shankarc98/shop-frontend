@@ -7,6 +7,13 @@
     margin: 0 auto;
 }
 
+.category-button-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
 .products-container{
     margin-top: 30px;
     display: flex;
@@ -15,7 +22,10 @@
     align-content: space-around;
 }
 
-@media (max-width: 368px){
+@media (max-width: 468px){
+    .product-page{
+        width: 100%;
+    }    
     .card-container{
         margin-top: 180px;
     }

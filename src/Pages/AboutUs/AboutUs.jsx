@@ -1,8 +1,10 @@
 import Dashboard from "../../Components/Dashboard/Dashboard"
 import Footer from "../../Components/Footer/Footer"
+import MobileNavBar from "../../Components/MobileNavBar/MobileNavBar";
 import "./AboutUs.css"
 import "../../Components/Dashboard/Dashboard.css";
 import "../../Components/Footer/Footer.css";
+import "../../Components/MobileNavBar/MobileNavBar.css"
 
 function AboutUs(){
     return <div className="about-us-container">
@@ -51,6 +53,8 @@ function AboutUs(){
             <img className = "shop-images" src = "/images/shop/shop5.jpg" alt = "shop"/>
             <img className = "shop-images" src = "/images/shop/shop1.jpg" alt = "shop"/>
         </div>
+
+        <MobileNavBar />
         <div className="footer-container">
             <Footer />
         </div>

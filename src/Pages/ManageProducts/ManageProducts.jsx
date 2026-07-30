@@ -19,7 +19,8 @@ function ManageProducts(){
         price: "",
         des1: "",
         des2: "",
-        des3: ""
+        des3: "",
+        category: ""
     }
     const [products, setProducts] = useState([]); 
     const [card, setCard] = useState(false); 
@@ -31,8 +32,7 @@ function ManageProducts(){
         setProducts(arr);
     }
 
-    useEffect(() => {
-        
+    useEffect(() => {        
         getData();
     }, [])
 
@@ -64,6 +64,7 @@ function ManageProducts(){
                         des1 = {p.des1}
                         des2 = {p.des2}
                         des3 = {p.des3}
+                        category = {p.category}
                         setCard = {setCard}
                         setEdit = {setEdit}
                         product = {p}

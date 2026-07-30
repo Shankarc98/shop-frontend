@@ -3,6 +3,7 @@ import Carousel from "../../Components/Carousel/Carousel"
 import Discover from "../../Components/Discover/Discover"
 import Product from "../../Components/Product/Product"
 import Footer from "../../Components/Footer/Footer"
+import MobileNavBar from "../../Components/MobileNavBar/MobileNavBar"
 import {useNavigate} from "react-router-dom"
 import {useEffect, useState} from "react"
 import "./Home.css";
@@ -11,6 +12,7 @@ import "../../Components/Carousel/Carousel.css";
 import "../../Components/Discover/Discover.css";
 import "../../Components/Product/Product.css";
 import "../../Components/Footer/Footer.css";
+import "../../Components/MobileNavBar/MobileNavBar.css"
 
 function Home(){
     
@@ -68,6 +70,9 @@ function Home(){
         </div>
         
     </div>
+
+    <MobileNavBar />
+
     <div className="footer-container">
       <Footer />
     </div>

@@ -6,3 +6,9 @@
     gap: 2rem;
     margin: 0 auto;
 }
+
+@media(max-width: 468px){
+    .services-page{
+        width: 100%;
+    }
+}

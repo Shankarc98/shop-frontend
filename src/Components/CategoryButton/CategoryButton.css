@@ -1,0 +1,14 @@
+
+.category-button{
+    width: 500px;
+    height: 100px;
+    background-color:  rgb(243, 239, 239);    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+}
+
+@media(max-width: 468px){
+    .category-button{
+        width: 90%;
+    }
+}

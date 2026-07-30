@@ -4,3 +4,9 @@
     display: flex;
     gap: 1rem;
 }
+
+@media(max-width: 468px){
+    .footer{
+        margin-bottom: 70px;
+    }
+}

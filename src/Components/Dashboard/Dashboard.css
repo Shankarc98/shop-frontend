@@ -15,6 +15,7 @@
 .logo{
     height: 100%;
     width: 180px;
+    cursor: pointer;
 }
 .searchbar-container{
     background-color: ghostwhite;
@@ -41,17 +42,22 @@
 
 /*Mobiles*/
 
-@media (max-width: 480px){
+@media (max-width: 468px){
     .dashboard{
         flex-direction: column;
-        height: 100px;
+        height: 60px;
         flex-wrap: nowrap;
         gap: 1rem;
-    }
+        width: 100%;
+    }    
     .logo{
         width: 150px;
         height: 65px;
         margin-top: 30px;        
+    }
+    .navigation-container{
+        background-color: red;
+        display: none;
     }
     .navigation-btn{
         font-size:x-small;

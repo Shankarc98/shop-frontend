@@ -1,0 +1,26 @@
+.product-category-page{
+    width: 90%;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.category-products-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+@media(max-width: 468px){
+    .product-category-page{
+        width: 100%;
+    }
+    .category-products-container{
+        width: 90%;
+        margin: 0 auto;
+        justify-content: center;
+    }
+}

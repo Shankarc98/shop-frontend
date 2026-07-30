@@ -14,6 +14,7 @@ function ManageCard(props){
     const [des2, setDes2] = useState(edit.des2);
     const [des3, setDes3] = useState(edit.des3);
     const [image, setImage] = useState(null);
+    const [category, setCategory] = useState(edit.category);
     const formData = new FormData();
 
     const token = JSON.parse(localStorage.getItem('token'));
@@ -34,6 +35,10 @@ function ManageCard(props){
     function handleDes3(event){
         setDes3(event.target.value);
     }
+    function handleCategory(event){
+        setCategory(event.target.value);
+    }
+
     const url = import.meta.env.VITE_API_URL; 
 
     async function handleSubmit(event){
@@ -53,6 +58,7 @@ function ManageCard(props){
         formData.append("des1", des1);
         formData.append("des2", des2);
         formData.append("des3", des3);
+        formData.append("category", category);
         const headers = {
             Authorization: `Bearer ${token}`
         }
@@ -130,9 +136,21 @@ function ManageCard(props){
         <label className = "input-label" htmlFor="des3">Give a description</label>
         <input onChange = {handleDes3} className = "manage-input" type = "text" value = {des3} placeholder="Enter Description 3"/>
 
+        <label className="input-label" htmlFor="category">Choose a Category</label>
+        <select onChange={handleCategory}>
+            <option value = "dth">DTH</option>
+            <option value = "speakers">speaker</option>
+            <option value = "tools">tools</option>
+            <option value = "remotes">remotes</option>
+            <option value = "Wires & Cables">wires & cables</option>
+            <option value = "others">others</option>
+
+        </select>
+
+
         <label className = "input-label" htmlFor="file">Upload a picture of the product</label>
         <input onChange = {(e) => {setImage(e.target.files[0])}} type = "file" accept="images/*" />
-
+        
         <input  className = "submit-button" type = "submit" />
     </form> 
 
