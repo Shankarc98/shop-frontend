@@ -20,7 +20,7 @@ function ManageProducts(){
         des1: "",
         des2: "",
         des3: "",
-        category: ""
+        category: "DTH"
     }
     const [products, setProducts] = useState([]); 
     const [card, setCard] = useState(false); 

@@ -59,6 +59,7 @@ function ManageCard(props){
         formData.append("des2", des2);
         formData.append("des3", des3);
         formData.append("category", category);
+
         const headers = {
             Authorization: `Bearer ${token}`
         }
@@ -83,20 +84,16 @@ function ManageCard(props){
         formData.append("id", id);
         if(image){
             formData.append("image", image);
-            console.log(image);
         }
         else{
             formData.append("image_id", image_id);
             formData.append("image_url", image_url);
-            console.log(image_id, image_url);
         }
         formData.append("price", price);
         formData.append("des1", des1);
         formData.append("des2", des2);
         formData.append("des3", des3);
         
-        console.log(name, price, des1, des2, des3);
-
         try{
             await axios.put(`${url}/editProduct`, formData, {
                 headers : {
@@ -138,11 +135,12 @@ function ManageCard(props){
 
         <label className="input-label" htmlFor="category">Choose a Category</label>
         <select onChange={handleCategory}>
-            <option value = "dth">DTH</option>
+            <option value = "others">No option chosen</option>
+            <option value = "dth">dth</option>
             <option value = "speakers">speaker</option>
             <option value = "tools">tools</option>
             <option value = "remotes">remotes</option>
-            <option value = "Wires & Cables">wires & cables</option>
+            <option value = "wires & cables">wires & cables</option>
             <option value = "others">others</option>
 
         </select>

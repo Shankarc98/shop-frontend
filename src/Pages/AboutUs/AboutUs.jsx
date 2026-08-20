@@ -38,11 +38,11 @@ function AboutUs(){
         </div>
 
         <div className = "about-card">
-            <h3 className = "about-title">Our Mission & Approach</h3>
+            <h3 className = "about-title">Why Choose Us</h3>
             <p className = "about-card-description">
-            Our mission is to provide reliable, high-quality electronics at fair prices 
-            while delivering exceptional customer service. We focus on understanding our customers' needs, recommending the right products,
-            and providing reliable support before and after every purchase.
+            We strive to make every customer experience simple, reliable, and satisfying. 
+            From helping you choose the right product to providing dependable after-sales support, we are committed to quality, transparent pricing, genuine products, and professional service. 
+            Whether you're purchasing a new appliance or repairing an existing one, we aim to be your trusted electronics partner.
             </p>
         </div>
 

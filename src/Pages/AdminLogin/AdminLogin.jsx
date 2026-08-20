@@ -9,8 +9,6 @@ function AdminLogin(){
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
 
-    console.log("admin page loaded");
-    
     async function handleLogin(event){
         event.preventDefault();
         const body = {

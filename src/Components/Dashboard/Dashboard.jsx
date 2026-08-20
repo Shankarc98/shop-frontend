@@ -1,12 +1,13 @@
 import {useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import NavigationButton from "../NavigationButton/NavigationButton"
-
+import SearchBar from "../SearchBar/SearchBar";
+import "../SearchBar/SearchBar.css";
 function Dashboard(props){
     const [isMobile, setMobile] = useState(window.innerWidth <= 768);
-    
     const navigate = useNavigate(); 
-    
+
+
     useEffect(() => {
         function handleResize(){
             setMobile(window.innerWidth <= 468);
@@ -23,7 +24,8 @@ function Dashboard(props){
     const isNav = true;
     
     return <div className="dashboard">
-        <img className="logo" src="images/logo.png" alt="logo" onClick = {() => navigate("/")}/>
+        <img className="logo" src="images/logo.png" onClick = {() => navigate("/")}/>
+        {props.searchbox ? <SearchBar category = {props.category} setSearchTerm = {props.setSearchTerm}/> : null}
         <div style = {{display : isNav ? 'flex' : 'none'}}  className="navigation-container">    
             {!isMobile ? <NavigationButton handleClick = {() => navigate("/")} name="Home"/> : null}
             {!isMobile ? <NavigationButton handleClick = {() => navigate("/aboutus")} name="About us"/>: null}
