@@ -11,7 +11,10 @@ import "./Services.css"
 function Services(){    
        
     return <div className = "services-page">
-        <Dashboard />
+        <Dashboard 
+            searchbox = {true}
+            category = {"services"}
+        />
 
         <h2 className = "page-title">Our Services</h2>
 

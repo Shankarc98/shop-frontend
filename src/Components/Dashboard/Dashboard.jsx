@@ -4,14 +4,12 @@ import NavigationButton from "../NavigationButton/NavigationButton"
 import SearchBar from "../SearchBar/SearchBar";
 import "../SearchBar/SearchBar.css";
 function Dashboard(props){
-    const [isMobile, setMobile] = useState(window.innerWidth <= 768);
+    const [isMobile, setMobile] = useState(window.innerWidth <= 468);
     const navigate = useNavigate(); 
-
 
     useEffect(() => {
         function handleResize(){
-            setMobile(window.innerWidth <= 468);
-            
+            setMobile(window.innerWidth <= 468);            
         };
 
         window.addEventListener("resize", handleResize);
@@ -25,7 +23,13 @@ function Dashboard(props){
     
     return <div className="dashboard">
         <img className="logo" src="images/logo.png" onClick = {() => navigate("/")}/>
-        {props.searchbox ? <SearchBar category = {props.category} setSearchTerm = {props.setSearchTerm}/> : null}
+        {props.searchbox ? <SearchBar 
+                            category = {props.category} 
+                            setSearchTerm = {props.setSearchTerm}
+                            suggestions = {props.suggestions}
+                            isSuggestion = {props.isSuggestion}                            
+                            setIsSuggestion = {props.setIsSuggestion}
+                            /> : null}
         <div style = {{display : isNav ? 'flex' : 'none'}}  className="navigation-container">    
             {!isMobile ? <NavigationButton handleClick = {() => navigate("/")} name="Home"/> : null}
             {!isMobile ? <NavigationButton handleClick = {() => navigate("/aboutus")} name="About us"/>: null}

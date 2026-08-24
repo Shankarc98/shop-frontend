@@ -6,6 +6,7 @@ import Footer from "../../Components/Footer/Footer"
 import MobileNavBar from "../../Components/MobileNavBar/MobileNavBar"
 import {useNavigate} from "react-router-dom"
 import {useEffect, useState} from "react"
+import {searchProducts} from "../../utils/helpers.js";
 import "./Home.css";
 import "../../Components/Dashboard/Dashboard.css";
 import "../../Components/Carousel/Carousel.css";
@@ -18,6 +19,7 @@ function Home(){
     
     const navigate = useNavigate(); 
     const [products, setProducts] = useState([{id: 13, image: "/images/products.png", name: "inverter", price: 1200, des1: "descr1", des2: "descr2", des3: "descr3"}]);
+    const [isSuggestion, setIsSuggestion] = useState(false);
     const url = import.meta.env.VITE_API_URL;
     useEffect(() => {
       getProducts(); 
@@ -38,7 +40,12 @@ function Home(){
     
     
     return <div className="home">
-    <Dashboard />
+    <Dashboard 
+        searchbox = {true}
+        category = {"home"}
+        isSuggestion = {isSuggestion}
+        setIsSuggestion = {setIsSuggestion}
+    />
     <Carousel />
     <h3 className = "sub-title">Discover</h3>
     <div className="discover-card">
@@ -50,7 +57,7 @@ function Home(){
     <div className="product-container">
         
         <h3 className="sub-title">Our Top Products</h3>
-        <div className="card-container">
+        <div className="home-card-container ">
          {  
             
             products.map((d, index) => 

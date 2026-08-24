@@ -6,7 +6,10 @@ import "./Location.css"
 
 function Location(){
     return <div className = "location-page">
-        <Dashboard />
+        <Dashboard 
+            searchbox = {true}
+            category = {"location"}
+        />
         <h2 className="page-title">Where to find us</h2>
         <div className = "location-container">
             <iframe 

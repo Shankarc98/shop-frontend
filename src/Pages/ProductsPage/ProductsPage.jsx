@@ -26,7 +26,10 @@ function ProductsPage(){
     }, []);
     
     return <div className = "product-page">
-        <Dashboard />
+        <Dashboard 
+            searchbox = {true}
+            category = {"products"}
+        />
 
         <h2 className = "page-title">Our Products</h2>
 
@@ -40,19 +43,7 @@ function ProductsPage(){
             <CategoryButton buttonName = "Others"/>
 
         </div>
-        <div className = "products-container">
-            {
-                products.map(i => <Product 
-                                key = {i.id}
-                                image = {i.image_url}
-                                name = {i.name}
-                                price = {i.price}
-                                des1 = {i.des1}
-                                des2 = {i.des2}
-                                des3 = {i.des3}                    
-                            />)
-            }
-        </div>
+        
         
         <MobileNavBar />
         <div className = "footer-container">

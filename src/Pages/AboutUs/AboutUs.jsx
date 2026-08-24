@@ -9,7 +9,10 @@ import "../../Components/MobileNavBar/MobileNavBar.css"
 function AboutUs(){
     return <div className="about-us-container">
         
-        <Dashboard />
+        <Dashboard 
+            searchbox = {true}
+            category = {"aboutus"}
+        />
         <h2 className = "page-title">About Us</h2>
 
         <p className = "about-description">

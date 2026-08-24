@@ -11,16 +11,17 @@ import "../../Components/Product/Product.css";
 import "../../Components/Footer/Footer.css";
 import "../../Components/MobileNavBar/MobileNavBar.css"
 
-export default function ProductCategory(){
+export default function ProductCategory(props){
     const navigate = useNavigate();
     const location = useLocation(); 
     const category = location?.state;
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState(""); 
+    const [suggestions, setSuggestions] = useState(null);
+    const [isSuggestion, setIsSuggestion] = useState(false);
 
     const url = import.meta.env.VITE_API_URL;
 
-    console.log("top of productcategory - location.state: ", location.state, "category: ", category);
    
     async function getCategoryProducts(category){
 
@@ -28,6 +29,7 @@ export default function ProductCategory(){
             const response = await axios.get(`${url}/getCategoryProducts/${category.toLowerCase()}`)    
             const array = response.data;   
             setProducts(array);
+            
         }
         catch(err){
             console.log(err.stack);
@@ -39,46 +41,15 @@ export default function ProductCategory(){
         getCategoryProducts(category);         
     }, [category])
     
-    useEffect(() => {
+    
 
-        if(!searchTerm.trim()){
-            getCategoryProducts(category);
-            return 
-        }
-        const timer = setTimeout(() => {
-            searchProducts(searchTerm);                 
-
-        }, 500);
-
-        return () => clearTimeout(timer);
-
-    }, [searchTerm, category])
-
-    async function searchProducts(searchTerm){
-                
-        const api = `${url}/searchProducts?q=${encodeURIComponent(searchTerm)}&currentCategory=${encodeURIComponent(category.toLowerCase())}`;
-        const response = await fetch(api);
-        const body = await response.json();
-        
-        console.log("body from productcategory",body);
-        if(body.products.length !== 0 && !body.redirect){
-            setProducts(body.products);
-        }
-        else if(body.products.length !== 0 && body.redirect){
-            console.log("redirecting to new page"); 
-            navigate("/productCategory",{
-                state : body.category
-            });
-        }
-
-
-    }
+    
+   
 
     return <div className = "product-category-page">
         <Dashboard 
             searchbox = {true}
-            category = {category}
-            setSearchTerm = {setSearchTerm}
+            category = {category}            
         />
         
         <h2 className = "page-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h2>

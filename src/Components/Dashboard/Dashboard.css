@@ -20,9 +20,30 @@
 .searchbar-container{
     background-color: ghostwhite;
     display: flex;
-    gap:0.5rem;
+    
+    position: relative;
     border-radius: 40px;
 }
+.icon-searchbar{
+    display: flex;
+    border-radius: 40px;
+    gap:0.5rem;
+}
+.suggestions{
+    display: flex;
+    flex-direction: column;    
+    position: absolute;
+    top: 30px;
+    background-color: ghostwhite;
+    border-radius: 10px;
+    width: 100%;
+}
+.suggestion-point{
+    list-style-type: none;
+    cursor: pointer;
+    margin-left: 1.5rem;
+}
+
 .searchbar{
     border: none;
     outline: none;
@@ -45,16 +66,18 @@
 @media (max-width: 468px){
     .dashboard{
         flex-direction: column;
-        height: 60px;
+        height: 100px;
         flex-wrap: nowrap;
         gap: 1rem;
         width: 100%;
+        
     }    
     .logo{
         width: 150px;
         height: 65px;
         margin-top: 30px;        
     }
+    
     .navigation-container{
         background-color: red;
         display: none;

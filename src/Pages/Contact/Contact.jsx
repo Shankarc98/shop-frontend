@@ -42,7 +42,10 @@ function Contact(){
 
     }
     return <div className="contact-page">
-        <Dashboard />
+        <Dashboard 
+            searchbox = {true}
+            category = {"contactus"}
+        />
         
         <h2 className = "page-title">Contact Us</h2>
 
@@ -66,7 +69,7 @@ function Contact(){
 
             <div className = "email-container">
                 <h4>E-Mail</h4>
-                <p className = "contact-field">shansunthi@gmail.com</p>
+                <p className = "contact-field">sankarelectronics@gmail.com</p>
             </div>
 
             <form onSubmit = {submitEnquiry} className = "message-container">

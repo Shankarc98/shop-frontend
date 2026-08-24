@@ -26,7 +26,7 @@
 @media (max-width: 480px){
     .carousel{
         height: 250px;
-        margin-top: 80px;
+        margin-top: 120px;
         width: 100%;
     }
     .carousel-inner .active{
@@ -36,5 +36,8 @@
     .carousel-item{
         height: 250px;
         width: 100%;
+    }
+    .carousel-control{
+        z-index: 1000;
     }
 }
