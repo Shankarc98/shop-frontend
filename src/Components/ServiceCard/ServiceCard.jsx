@@ -3,7 +3,7 @@ import "./ServiceCard.css";
 function ServiceCard(props){
     
     return <div className = "service-card" >
-        <img className = "service-image" src = {props.image} alt = "service"/>
+        <img className = "service-image" src = {props.image} alt = {props.service} loading="lazy"/>
 
         <div className = "service">
             <h4 className = "service-title">{props.service}</h4>

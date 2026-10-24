@@ -1,28 +1,24 @@
-import {useNavigate} from "react-router-dom";
-import {useState, useEffect} from "react";
-import NavigationButton from "../NavigationButton/NavigationButton"
+import {useLocation, useNavigate} from "react-router-dom";
+import NavigationButton from "../NavigationButton/NavigationButton";
 import SearchBar from "../SearchBar/SearchBar";
 import "../SearchBar/SearchBar.css";
-function Dashboard(props){
-    const [isMobile, setMobile] = useState(window.innerWidth <= 468);
-    const navigate = useNavigate(); 
 
-    useEffect(() => {
-        function handleResize(){
-            setMobile(window.innerWidth <= 468);            
-        };
-
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        }
-    }, [])
-
-    const isNav = true;
+function Dashboard(props) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const navigationItems = [
+        {name: "Home", path: "/"},
+        {name: "About us", path: "/aboutus"},
+        {name: "Products", path: "/products"},
+        {name: "Services", path: "/services"},
+        {name: "Location", path: "/location"},
+        {name: "Contact", path: "/contact"},
+    ];
     
-    return <div className="dashboard">
-        <img className="logo" src="images/logo.png" onClick = {() => navigate("/")}/>
+    return <header className="dashboard">
+        <button className="brand-home" type="button" onClick={() => navigate("/")} aria-label="Sankar Electronics home">
+            <img className="logo" src="/images/logo.png" alt="Sankar Electronics"/>
+        </button>
         {props.searchbox ? <SearchBar 
                             category = {props.category} 
                             setSearchTerm = {props.setSearchTerm}
@@ -30,15 +26,17 @@ function Dashboard(props){
                             isSuggestion = {props.isSuggestion}                            
                             setIsSuggestion = {props.setIsSuggestion}
                             /> : null}
-        <div style = {{display : isNav ? 'flex' : 'none'}}  className="navigation-container">    
-            {!isMobile ? <NavigationButton handleClick = {() => navigate("/")} name="Home"/> : null}
-            {!isMobile ? <NavigationButton handleClick = {() => navigate("/aboutus")} name="About us"/>: null}
-            {!isMobile ? <NavigationButton handleClick = {() => navigate("/products")} name="Products"/>: null}
-            {!isMobile ? <NavigationButton handleClick = {() => navigate("/services")} name="Services"/> : null}
-            {!isMobile ? <NavigationButton handleClick = {() => navigate("/location")} name="Location"/> : null}
-            {!isMobile ? <NavigationButton handleClick = {() => navigate("/contact")} name="Contact us"/> : null}
-        </div>
-    </div>
+        <nav aria-label="Main navigation" className="navigation-container">
+            {navigationItems.map((item) => (
+                <NavigationButton
+                    key={item.path}
+                    handleClick={() => navigate(item.path)}
+                    name={item.name}
+                    current={location.pathname === item.path}
+                />
+            ))}
+        </nav>
+    </header>
 }
 
 export default Dashboard;
