@@ -21,6 +21,7 @@ import "./Components/ManageCard/ManageCard.css"
 import "./Pages/Enquiries/Enquiries.css"
 import "./Components/EnquiryCard/EnquiryCard.css"
 import "./Pages/AdminLogin/AdminLogin.css"
+import "./redesign.css"
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>

@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import axios from "axios";
 import getProducts from "../../utils/helpers";
 import "./ManageCard.css";
@@ -16,6 +16,8 @@ function ManageCard(props){
     const [image, setImage] = useState(null);
     const [category, setCategory] = useState(edit.category);
     const formData = new FormData();
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState(false);
 
     const token = JSON.parse(localStorage.getItem('token'));
 
@@ -42,12 +44,18 @@ function ManageCard(props){
     const url = import.meta.env.VITE_API_URL; 
 
     async function handleSubmit(event){
-
         event.preventDefault();
-        if(props.operation == "Add Product") handleAdd();
-        else handleEdit();        
-        
-        props.close();
+        setSubmitting(true);
+        setError(false);
+        try {
+            if (props.operation === "Add Product") await handleAdd();
+            else await handleEdit();
+            props.close();
+        } catch {
+            setError(true);
+        } finally {
+            setSubmitting(false);
+        }
     }
 
     async function handleAdd(){        
@@ -60,10 +68,6 @@ function ManageCard(props){
         formData.append("des3", des3);
         formData.append("category", category);
 
-        const headers = {
-            Authorization: `Bearer ${token}`
-        }
-        try{
             await axios.post(`${url}/addProduct`, formData, {
                 headers : {
                     Authorization : `Bearer ${token}` 
@@ -73,9 +77,7 @@ function ManageCard(props){
             const arr = await getProducts();
             props.data(arr);
             
-        }catch(err){
-            console.log(err.stack);
-        }
+
     }
 
     async function handleEdit(){
@@ -94,7 +96,6 @@ function ManageCard(props){
         formData.append("des2", des2);
         formData.append("des3", des3);
         
-        try{
             await axios.put(`${url}/editProduct`, formData, {
                 headers : {
                     Authorization : `Bearer ${token}`
@@ -105,54 +106,51 @@ function ManageCard(props){
 
             props.data(arr);
             
-        }catch(err){
-            console.log(err.stack);
-        }
+
 
     }
-    return <div className = "manage-card" >
-     
-     <div className = "manage-card-title">
-        <h4 className = "operation-title">{props.operation}</h4>
-        <button onClick = {props.close} className = "cancel-button">x</button>
-     </div>     
+    return <div className="manage-card-backdrop">
+    <section className="manage-card" role="dialog" aria-modal="true" aria-labelledby="manage-card-title">
+     <div className="manage-card-title">
+        <h2 id="manage-card-title" className="operation-title">{props.operation}</h2>
+        <button type="button" onClick={props.close} className="cancel-button" aria-label="Close product form">×</button>
+     </div>
           
-     <form onSubmit = {handleSubmit} className = "manage-form" >
-        <label className = "input-label" htmlFor="name">Name of the Product</label>
-        <input onChange = {handleName} className = "manage-input" type = "text" value = {name} placeholder="Enter Product Name" required/>
+     <form onSubmit={handleSubmit} className="manage-form">
+        <label className="input-label" htmlFor="name">Name of the product</label>
+        <input id="name" onChange={handleName} className="manage-input" type="text" value={name} placeholder="Enter product name" required/>
         
-        <label className = "input-label" htmlFor="price">Price of the Product</label>
-        <input onChange = {handlePrice} className = "manage-input" type = "number" value = {price} placeholder="Enter Product Price" required/>
+        <label className="input-label" htmlFor="price">Price of the product</label>
+        <input id="price" onChange={handlePrice} className="manage-input" type="number" min="0" value={price} placeholder="Enter product price" required/>
 
-        <label className = "input-label" htmlFor="des1">Give a description</label>
-        <input onChange = {handleDes1} className = "manage-input" type = "text" value = {des1} placeholder="Enter Description 1"/>
+        <label className="input-label" htmlFor="des1">Description 1</label>
+        <input id="des1" onChange={handleDes1} className="manage-input" type="text" value={des1} placeholder="Add a product detail"/>
 
-        <label className = "input-label" htmlFor="des2">Give a description</label>
-        <input onChange = {handleDes2} className = "manage-input" type = "text" value = {des2} placeholder="Enter Description 2"/>
+        <label className="input-label" htmlFor="des2">Description 2</label>
+        <input id="des2" onChange={handleDes2} className="manage-input" type="text" value={des2} placeholder="Add another detail"/>
 
-        <label className = "input-label" htmlFor="des3">Give a description</label>
-        <input onChange = {handleDes3} className = "manage-input" type = "text" value = {des3} placeholder="Enter Description 3"/>
+        <label className="input-label" htmlFor="des3">Description 3</label>
+        <input id="des3" onChange={handleDes3} className="manage-input" type="text" value={des3} placeholder="Add another detail"/>
 
-        <label className="input-label" htmlFor="category">Choose a Category</label>
-        <select onChange={handleCategory}>
-            <option value = "others">No option chosen</option>
-            <option value = "dth">dth</option>
-            <option value = "speakers">speaker</option>
-            <option value = "tools">tools</option>
-            <option value = "remotes">remotes</option>
-            <option value = "wires & cables">wires & cables</option>
-            <option value = "others">others</option>
-
+        <label className="input-label" htmlFor="category">Category {props.operation === "Edit Product" && "(unchanged)"}</label>
+        <select id="category" onChange={handleCategory} value={(category || "others").toLowerCase()} disabled={props.operation === "Edit Product"}>
+            <option value="dth">DTH</option>
+            <option value="speakers">Speakers</option>
+            <option value="tools">Tools</option>
+            <option value="remotes">Remotes</option>
+            <option value="wires & cables">Wires &amp; cables</option>
+            <option value="others">Others</option>
         </select>
 
-
-        <label className = "input-label" htmlFor="file">Upload a picture of the product</label>
-        <input onChange = {(e) => {setImage(e.target.files[0])}} type = "file" accept="images/*" />
-        
-        <input  className = "submit-button" type = "submit" />
+        <label className="input-label" htmlFor="file">{props.operation === "Edit Product" ? "Replace product image (optional)" : "Product image"}</label>
+        <input id="file" onChange={(event) => setImage(event.target.files?.[0] || null)} type="file" accept="image/*"/>
+        {error && <p className="form-feedback form-error" role="alert">The product couldn’t be saved. Please try again.</p>}
+        <button className="submit-button" type="submit" disabled={submitting}>
+            {submitting ? "Saving…" : props.operation === "Add Product" ? "Add product" : "Save changes"}
+        </button>
     </form> 
-
-    </div>    
+    </section>
+    </div>
 }
 
 export default ManageCard;

@@ -1,6 +1,13 @@
 import "./NavigationButton.css"
 function NavigationButton(props){
-    return <button onClick = {props.handleClick} className="navigation-btn">{props.name}</button>
+    return <button
+        type="button"
+        onClick={props.handleClick}
+        className="navigation-btn"
+        aria-current={props.current ? "page" : undefined}
+    >
+        {props.name}
+    </button>
 }
 
 export default NavigationButton;

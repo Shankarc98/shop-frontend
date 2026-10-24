@@ -1,63 +1,68 @@
-import {useState, useEffect} from "react"; 
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import "./Carousel.css";
 
-function Carousel(){
-    
-    const [isMobile, setMobile] = useState(window.innerWidth <= 600);
-    
+const slides = [
+    {image: "/images/shop/shop2.jpg", alt: "Electronics and accessories displayed on the shop shelves", label: "Inside the shop"},
+    {image: "/images/shop/shop3.jpg", alt: "Product shelves inside Sankar Electronics", label: "Find the right product"},
+    {image: "/images/Services/repair.jpg", alt: "Hands-on electronic repair work", label: "Repair and technical help"},
+];
+
+function Carousel() {
+    const [activeSlide, setActiveSlide] = useState(0);
+    const [paused, setPaused] = useState(false);
+
     useEffect(() => {
-        function handleResize(){
-            setMobile(window.innerWidth <= 368);            
-        }
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (paused || reduceMotion) return undefined;
+        const timer = window.setInterval(() => {
+            setActiveSlide((current) => (current + 1) % slides.length);
+        }, 7000);
+        return () => window.clearInterval(timer);
+    }, [paused]);
 
-        window.addEventListener("resize", handleResize); 
+    const currentSlide = slides[activeSlide];
 
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        }
-    }, [])
-    return <div id="myCarousel" className="carousel slide mb-6 pointer-event" data-bs-ride="carousel"> 
-    <div className="carousel-indicators"> 
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" className="" aria-label="Slide 1">
-            </button> 
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" className="active" aria-current="true">
-                </button> 
-                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" className="">
-                    </button> 
-                    </div> 
-                    <div className="carousel-inner"> 
-                        <div className="carousel-item"> 
-                            
-                            <img className="shop-img" src={isMobile ? "/images/Carousel/carousel1.png" : "/images/dth.png"} alt="banner"/>
-                                <div className="container"> 
-                                  
-                                </div> 
-                        </div> 
-                    <div className="carousel-item active"> 
-                        <img className="shop-img" src={isMobile ? "/images/Carousel/carousel2.png" : "/images/ups.png"} alt="shop"/>
-
-                    <div className="carousel-container"> 
-                                                
-                    </div> 
-                    </div> 
-                    
-                    <div className="carousel-item"> 
-                        <img className="shop-img" src={isMobile ? "/images/Carousel/carousel3.png" : "/images/speaker.png"} alt="shop"/>
-
-                        <div className="carousel-container"> 
-                                                            
-                        </div> 
-                    </div> 
-                </div> 
-                                                                <button className="carousel-control-prev carousel-control" type="button" data-bs-target="#myCarousel" data-bs-slide="prev"> 
-                                                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span> 
-                                                                    <span className="visually-hidden">Previous</span> 
-                                                                    </button> 
-                                                                    <button className="carousel-control-next carousel-control" type="button" data-bs-target="#myCarousel" data-bs-slide="next"> 
-                                                                        <span className="carousel-control-next-icon" aria-hidden="true"></span> 
-                                                                        <span className="visually-hidden">Next</span> 
-    </button> 
-    </div>
+    return <section className="store-hero" aria-label="Welcome to Sankar Electronics">
+        <div className="hero-copy">
+            <h1>Good technology starts with good advice.</h1>
+            <p>Explore electronics, find a repair service, or talk to your neighborhood team.</p>
+            <div className="hero-actions">
+                <Link to="/products" className="button button-primary">Browse products</Link>
+                <Link to="/services" className="button button-secondary">Explore services</Link>
+            </div>
+            <div className="hero-proof">
+                <span className="hero-rule" aria-hidden="true"/>
+                <span>Local guidance since 1999</span>
+            </div>
+        </div>
+        <div className="hero-image-panel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+            <img key={currentSlide.image} className="hero-image" src={currentSlide.image} alt={currentSlide.alt}/>
+            <div className="hero-image-caption">
+                <span>{currentSlide.label}</span>
+                <div className="hero-slide-controls" aria-label="Choose a shop photo">
+                    {slides.map((slide, index) => (
+                        <button
+                            key={slide.image}
+                            type="button"
+                            className={`hero-slide-dot${index === activeSlide ? " is-active" : ""}`}
+                            onClick={() => setActiveSlide(index)}
+                            aria-label={`Show ${slide.label.toLowerCase()}`}
+                            aria-pressed={index === activeSlide}
+                        />
+                    ))}
+                    <button
+                        type="button"
+                        className="hero-pause"
+                        onClick={() => setPaused((value) => !value)}
+                        aria-label={paused ? "Resume photo rotation" : "Pause photo rotation"}
+                    >
+                        {paused ? "Play" : "Pause"}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 }
 
 export default Carousel;

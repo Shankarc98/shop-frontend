@@ -1,6 +1,6 @@
 .product-category-page{
     width: 90%;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

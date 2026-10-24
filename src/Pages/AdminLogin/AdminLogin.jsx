@@ -8,9 +8,13 @@ function AdminLogin(){
 
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState(false);
 
     async function handleLogin(event){
         event.preventDefault();
+        setSubmitting(true);
+        setError(false);
         const body = {
             name: name,
             password : password
@@ -20,16 +24,13 @@ function AdminLogin(){
         try{
             const response = await axios.post(`${url}/adminLogin`, body);
             localStorage.setItem("token", JSON.stringify(response.data.token));
-            const token = JSON.parse(localStorage.getItem('token'));
-            console.log("handleLogin " + token)
             navigate("/manageProducts");
             
-        }catch(err){
-            console.log(err.stack);
+        }catch{
+            setError(true);
+        } finally {
+            setSubmitting(false);
         }
-
-
-
     }
     function handleName(event){
         setName(event.target.value);
@@ -38,19 +39,23 @@ function AdminLogin(){
         setPassword(event.target.value);
     }
 
-    return <div className="admin-login">
-        <img className = "login-logo" src = "/images/logo.png" alt = "logo"/>
-        <form onSubmit = {handleLogin} className = "admin-login-container">
-            <h4 className="login-title">Admin Login</h4>
-            
-            <label className = "login-label" htmlFor = "username">Username</label>
-            <input className = "login-field" onChange = {handleName} className = "login-field" type = "text" placeholder="Enter username" value = {name}/>
-            
-            <label className = "login-label" htmlFor = "password">Password</label>
-            <input onChange = {handlePassword} className = "login-field" type = "password" placeholder="Enter password" value = {password}/>
-            <button onClick = {handleLogin} className = "login-field login-button" type = "submit">Login</button>
+    return <main className="admin-login">
+        <a href="/" className="login-brand" aria-label="Return to Sankar Electronics">
+            <img className="login-logo" src="/images/logo.png" alt="Sankar Electronics"/>
+        </a>
+        <form onSubmit={handleLogin} className="admin-login-container">
+            <h1 className="login-title">Admin sign in</h1>
+            <p className="login-description">Use your authorized account to manage the shop catalog and enquiries.</p>
+            <label className="login-label" htmlFor="username">Username</label>
+            <input id="username" className="login-field" onChange={handleName} type="text" autoComplete="username" placeholder="Enter username" value={name} required/>
+            <label className="login-label" htmlFor="password">Password</label>
+            <input id="password" onChange={handlePassword} className="login-field" type="password" autoComplete="current-password" placeholder="Enter password" value={password} required/>
+            {error && <p className="form-feedback form-error" role="alert">Sign-in failed. Check your details and try again.</p>}
+            <button className="login-button" type="submit" disabled={submitting}>
+                {submitting ? "Signing in…" : "Sign in"}
+            </button>
         </form>
-    </div>
+    </main>
 }
 
 export default AdminLogin;

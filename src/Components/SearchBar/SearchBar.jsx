@@ -9,39 +9,45 @@ function SearchBar(props){
     const boxRef = useRef(null);
     const [open, setOpen] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
-    
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
     
     useEffect(() => {
-
-        if(!input.trim()){
-            setSuggestions([]);
-            return 
-        }
+        if (!input.trim()) return undefined;
+        let active = true;
         const timer = setTimeout(async () => {
-            const response = await searchProducts(input, props.category);                 
-            
-            const array = response.products;
-            console.log("response in searchbar: ", response);
-            setSuggestions(array);    
-
+            try {
+                const response = await searchProducts(input, props.category);
+                if (active) setSuggestions(Array.isArray(response.products) ? response.products : []);
+            } catch {
+                if (active) {
+                    setSuggestions([]);
+                    setError(true);
+                }
+            } finally {
+                if (active) setLoading(false);
+            }
         }, 500);
 
-        return () => clearTimeout(timer);
-
+        return () => {
+            active = false;
+            clearTimeout(timer);
+        };
     }, [input, props.category])
 
     async function handleSearch(event){
-        
         const value = event.target.value; 
-
-        setInput(value);            
+        setInput(value);
+        setSuggestions([]);
+        setError(false);
+        setLoading(Boolean(value.trim()));
     }
 
-    function handlePointerClick(page){
+    function handlePointerClick(page) {
         navigate("/productCategory",{
             state : page
-        })
-        
+        });
+        setOpen(false);
     }
 
     useEffect(() => {
@@ -60,22 +66,37 @@ function SearchBar(props){
 
 
     return <div ref = {boxRef} className="searchbar-container">
-        <div className = "icon-searchbar">
+        <div className="icon-searchbar">
             <SearchIcon />
-            <input onFocus = {() => setOpen(true)} className="searchbar" value = {input} onChange = {handleSearch} type="text" size="30" placeholder="Search products and services"/>
+            <input
+                onFocus={() => setOpen(true)}
+                className="searchbar"
+                value={input}
+                onChange={handleSearch}
+                type="search"
+                aria-label="Search products and services"
+                aria-expanded={open && Boolean(input.trim())}
+                aria-controls="product-search-suggestions"
+                placeholder="Search products and services"
+            />
         </div>
-        {open ? <div className = "suggestions" style = {{display : suggestions ? "flex" : "block"}}>
-            {
-                                
-                input.trim() !== "" && suggestions?.length > 0 ? suggestions.map(
-                    s =>  <li 
-                            key = {s.id} 
-                            onClick={() => handlePointerClick(s.category)}
-                            className = "suggestion-point">{s.name}</li>
-                ) : suggestions ? null : <p>No results found</p> 
-            }
-        </div> : null}
-        
+        {open && input.trim() && <ul id="product-search-suggestions" className="suggestions" role="listbox">
+            {loading && <li className="suggestion-message">Searching products…</li>}
+            {!loading && error && <li className="suggestion-message" role="status">Search is temporarily unavailable.</li>}
+            {!loading && !error && suggestions.length === 0 && <li className="suggestion-message">No matching products found.</li>}
+            {!loading && suggestions.map((suggestion) => (
+                <li key={suggestion.id} role="option" aria-selected="false">
+                    <button
+                        type="button"
+                        className="suggestion-point"
+                        onClick={() => handlePointerClick(suggestion.category)}
+                    >
+                        <span>{suggestion.name}</span>
+                        <span className="suggestion-category">{suggestion.category}</span>
+                    </button>
+                </li>
+            ))}
+        </ul>}
     </div>
     
 }
