@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 import "./Carousel.css";
 
 const slides = [
-    {image: "/images/shop/shop2.jpg", alt: "Electronics and accessories displayed on the shop shelves", label: "Inside the shop"},
-    {image: "/images/shop/shop3.jpg", alt: "Product shelves inside Sankar Electronics", label: "Find the right product"},
+    {image: "/images/shop/shop2.png", alt: "Electronics and accessories displayed on the shop shelves", label: "Inside the shop"},
+    {image: "/images/shop/shop3.png", alt: "Product shelves inside Sankar Electronics", label: "Find the right product"},
     {image: "/images/Services/repair.jpg", alt: "Hands-on electronic repair work", label: "Repair and technical help"},
 ];
 

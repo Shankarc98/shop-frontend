@@ -26,7 +26,7 @@ function AboutUs(){
                     <h2>Good advice is part of the product.</h2>
                     <p>Our mission is to provide reliable, high-quality electronics at fair prices while delivering exceptional customer service. We focus on understanding our customers' needs, recommending the right products, and providing reliable support before and after every purchase.</p>
                 </div>
-                <img src="/images/shop/shop3.jpg" alt="Electronics and accessories arranged on the shop shelves" loading="lazy"/>
+                <img src="/images/shop/shop3.png" alt="Electronics and accessories arranged on the shop shelves" loading="lazy"/>
             </section>
 
             <section className="about-values">
@@ -42,10 +42,10 @@ function AboutUs(){
 
             <section className="about-gallery" aria-label="Inside Sankar Electronics">
                 {[
-                    ["/images/shop/shop2.jpg", "Electronics and accessories on display"],
-                    ["/images/shop/shop4.jpg", "DTH service signage outside the shop"],
-                    ["/images/shop/shop5.jpg", "DTH service provider displays"],
-                    ["/images/shop/shop1.jpg", "Sankar Electronics storefront"],
+                    ["/images/shop/shop2.png", "Electronics and accessories on display"],
+                    ["/images/shop/shop4.png", "DTH service signage outside the shop"],
+                    ["/images/shop/shop5.png", "DTH service provider displays"],
+                    ["/images/shop/shop1.png", "Sankar Electronics storefront"],
                 ].map(([image, alt]) => <img key={image} src={image} alt={alt} loading="lazy"/>)}
             </section>
         </main>
