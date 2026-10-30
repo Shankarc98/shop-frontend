@@ -54,6 +54,17 @@
     margin-top: 10px;
 }
 
+.submit-button:disabled{
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.image-preparation-message{
+    margin: 2px 0;
+    color: #551728;
+    font-size: 0.8rem;
+}
+
 @media(max-width: 468px){
     .manage-card{
         width: 90%;

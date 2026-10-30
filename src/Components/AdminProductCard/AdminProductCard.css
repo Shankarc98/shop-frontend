@@ -16,6 +16,88 @@
     margin-left: 1rem;
 }
 
+.admin-product-image-trigger {
+    display: block;
+    width: 150px;
+    height: 120px;
+    flex: 0 0 150px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background: #eeece7;
+    cursor: zoom-in;
+}
+
+.admin-product-image-trigger .admin-product-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    object-fit: contain;
+}
+
+.admin-image-preview-backdrop {
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgb(25 23 24 / 76%);
+    cursor: zoom-out;
+}
+
+.admin-image-preview-dialog {
+    position: relative;
+    width: min(920px, 100%);
+    max-height: calc(100dvh - 48px);
+    padding: 16px;
+    overflow: auto;
+    border: 1px solid #d8d8d2;
+    border-radius: 4px;
+    background: #fffefa;
+    box-shadow: 0 24px 70px rgb(0 0 0 / 30%);
+    cursor: default;
+}
+
+.admin-image-preview-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.admin-image-preview-heading h2 {
+    margin: 0;
+    color: #551728;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.admin-image-preview-close {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border: 1px solid #d8d8d2;
+    border-radius: 3px;
+    background: #fffefa;
+    color: #202329;
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.admin-image-preview-full {
+    display: block;
+    width: 100%;
+    height: min(72dvh, 680px);
+    object-fit: contain;
+    background: #eeece7;
+}
+
 .admin-product-info{
     display: flex;
     flex-direction: column;
@@ -60,6 +142,12 @@
         margin-bottom: 0;
         margin-top: 0.5rem;
     }
+    .admin-product-image-trigger {
+        width: 90%;
+        height: 150px;
+        flex: 0 0 auto;
+        margin: 0 auto;
+    }
     .admin-product-info{
         gap: 1rem;
     }
@@ -94,5 +182,18 @@
     }
     .manage-button{
         width: 40%;
+    }
+
+    .admin-image-preview-backdrop {
+        padding: 12px;
+    }
+
+    .admin-image-preview-dialog {
+        max-height: calc(100dvh - 24px);
+        padding: 12px;
+    }
+
+    .admin-image-preview-full {
+        height: min(72dvh, 560px);
     }
 }

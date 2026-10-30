@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import getProducts from "../../utils/helpers"
 import "./AdminProductCard.css"
 
@@ -8,6 +8,28 @@ function AdminProductCard(props){
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState(false);
     const [imageUnavailable, setImageUnavailable] = useState(!props.image);
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const previewCloseRef = useRef(null);
+
+    useEffect(() => {
+        if (!previewOpen) return undefined;
+
+        const previousFocus = document.activeElement;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        previewCloseRef.current?.focus();
+
+        function closeOnEscape(event) {
+            if (event.key === "Escape") setPreviewOpen(false);
+        }
+
+        document.addEventListener("keydown", closeOnEscape);
+        return () => {
+            document.removeEventListener("keydown", closeOnEscape);
+            document.body.style.overflow = previousOverflow;
+            if (previousFocus instanceof HTMLElement) previousFocus.focus();
+        };
+    }, [previewOpen]);
     
     function handleEdit(){
         props.setEdit(props.product);
@@ -41,7 +63,14 @@ function AdminProductCard(props){
     return <div className = "admin-product-card">
         {imageUnavailable
             ? <div className="admin-product-image admin-product-image-placeholder" role="img" aria-label={`Image unavailable for ${props.name || "product"}`}>No image</div>
-            : <img className="admin-product-image" src={props.image} alt={props.name || "Shop product"} loading="lazy" onError={() => setImageUnavailable(true)}/>}
+            : <button
+                type="button"
+                className="admin-product-image-trigger"
+                aria-label={`Preview image of ${props.name || "product"}`}
+                onClick={() => setPreviewOpen(true)}
+            >
+                <img className="admin-product-image" src={props.image} alt={props.name || "Shop product"} loading="lazy" onError={() => setImageUnavailable(true)}/>
+            </button>}
         <div className = "admin-product-info">
             <div className = "admin-product-name-price">
                 <p className="admin-product-name">{props.name}</p>
@@ -65,6 +94,30 @@ function AdminProductCard(props){
             </button>
         </div>
         {error && <p className="form-feedback form-error admin-card-error" role="alert">Couldn’t delete this product. Please try again.</p>}
+        {previewOpen && (
+            <div
+                className="admin-image-preview-backdrop"
+                onClick={(event) => {
+                    if (event.target === event.currentTarget) setPreviewOpen(false);
+                }}
+            >
+                <section className="admin-image-preview-dialog" role="dialog" aria-modal="true" aria-label={`Product image: ${props.name || "Shop product"}`}>
+                    <div className="admin-image-preview-heading">
+                        <h2>{props.name || "Product image"}</h2>
+                        <button
+                            ref={previewCloseRef}
+                            type="button"
+                            className="admin-image-preview-close"
+                            onClick={() => setPreviewOpen(false)}
+                            aria-label="Close image preview"
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <img className="admin-image-preview-full" src={props.image} alt={props.name || "Shop product"} />
+                </section>
+            </div>
+        )}
     </div>
 }
 

@@ -1,7 +1,46 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import axios from "axios";
-import getProducts from "../../utils/helpers";
 import "./ManageCard.css";
+
+const maxProductImageDimension = 1600;
+const imageOptimizationThreshold = 256 * 1024;
+const optimizableImageTypes = new Set(["image/jpeg", "image/png"]);
+
+async function optimizeProductImage(file) {
+    if (!optimizableImageTypes.has(file.type) || file.size < imageOptimizationThreshold) return file;
+
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxProductImageDimension / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    const context = canvas.getContext("2d");
+    if (!context) {
+        bitmap.close();
+        throw new Error("Image optimization is unavailable.");
+    }
+
+    try {
+        context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        const optimizedBlob = await new Promise((resolve, reject) => {
+            canvas.toBlob((blob) => {
+                if (blob) resolve(blob);
+                else reject(new Error("Could not encode the optimized product image."));
+            }, "image/webp", 0.9);
+        });
+        if (optimizedBlob.size >= file.size) return file;
+
+        const filename = file.name.replace(/\.[^.]+$/, "") || "product-image";
+        return new File([optimizedBlob], `${filename}.webp`, {
+            type: "image/webp",
+            lastModified: file.lastModified,
+        });
+    } finally {
+        bitmap.close();
+        canvas.width = 0;
+        canvas.height = 0;
+    }
+}
 
 function ManageCard(props){
     const edit = props.edit;
@@ -15,9 +54,13 @@ function ManageCard(props){
     const [des3, setDes3] = useState(edit.des3);
     const [image, setImage] = useState(null);
     const [category, setCategory] = useState(edit.category);
-    const formData = new FormData();
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(false);
+    const [preparingImage, setPreparingImage] = useState(false);
+    const [imageOptimizationWarning, setImageOptimizationWarning] = useState(false);
+    const submittingRef = useRef(false);
+    const imageSelectionRef = useRef(0);
+    const preparingImageRef = useRef(false);
 
     const token = JSON.parse(localStorage.getItem('token'));
 
@@ -43,69 +86,97 @@ function ManageCard(props){
 
     const url = import.meta.env.VITE_API_URL; 
 
+    async function handleImageChange(event) {
+        const selectedImage = event.target.files?.[0] || null;
+        const selectionId = ++imageSelectionRef.current;
+        setImage(selectedImage);
+        setImageOptimizationWarning(false);
+        setPreparingImage(false);
+        preparingImageRef.current = false;
+        if (!selectedImage || !optimizableImageTypes.has(selectedImage.type) || selectedImage.size < imageOptimizationThreshold) return;
+
+        setPreparingImage(true);
+        preparingImageRef.current = true;
+        try {
+            const optimizedImage = await optimizeProductImage(selectedImage);
+            if (selectionId === imageSelectionRef.current) setImage(optimizedImage);
+        } catch (optimizationError) {
+            console.error("Could not optimize product image; the original image will be uploaded.", optimizationError);
+            if (selectionId === imageSelectionRef.current) {
+                setImage(selectedImage);
+                setImageOptimizationWarning(true);
+            }
+        } finally {
+            if (selectionId === imageSelectionRef.current) {
+                setPreparingImage(false);
+                preparingImageRef.current = false;
+            }
+        }
+    }
+
     async function handleSubmit(event){
         event.preventDefault();
+        if (submittingRef.current || preparingImageRef.current) return;
+        submittingRef.current = true;
         setSubmitting(true);
         setError(false);
         try {
-            if (props.operation === "Add Product") await handleAdd();
-            else await handleEdit();
+            const isAdding = props.operation === "Add Product";
+            const savedProduct = isAdding ? await handleAdd() : await handleEdit();
+            props.data((currentProducts) => isAdding
+                ? [...currentProducts, savedProduct]
+                : currentProducts.map((product) => product.id === savedProduct.id ? savedProduct : product));
             props.close();
         } catch {
             setError(true);
         } finally {
+            submittingRef.current = false;
             setSubmitting(false);
         }
     }
 
     async function handleAdd(){        
-        
+        const formData = new FormData();
         formData.append("name", name);
-        formData.append("image", image);
+        if (image) formData.append("image", image);
         formData.append("price", price);
         formData.append("des1", des1);
         formData.append("des2", des2);
         formData.append("des3", des3);
         formData.append("category", category);
 
-            await axios.post(`${url}/addProduct`, formData, {
+            const response = await axios.post(`${url}/addProduct`, formData, {
                 headers : {
                     Authorization : `Bearer ${token}` 
                 }
             });
 
-            const arr = await getProducts();
-            props.data(arr);
-            
-
+            return response.data;
     }
 
     async function handleEdit(){
-        
+        const formData = new FormData();
         formData.append("name", name);
         formData.append("id", id);
         if(image){
             formData.append("image", image);
         }
         else{
-            formData.append("image_id", image_id);
-            formData.append("image_url", image_url);
+            if (image_id) formData.append("image_id", image_id);
+            if (image_url) formData.append("image_url", image_url);
         }
         formData.append("price", price);
         formData.append("des1", des1);
         formData.append("des2", des2);
         formData.append("des3", des3);
         
-            await axios.put(`${url}/editProduct`, formData, {
+            const response = await axios.put(`${url}/editProduct`, formData, {
                 headers : {
                     Authorization : `Bearer ${token}`
                 }
             });
 
-            const arr = await getProducts();
-
-            props.data(arr);
-            
+            return response.data;
 
 
     }
@@ -143,10 +214,12 @@ function ManageCard(props){
         </select>
 
         <label className="input-label" htmlFor="file">{props.operation === "Edit Product" ? "Replace product image (optional)" : "Product image"}</label>
-        <input id="file" onChange={(event) => setImage(event.target.files?.[0] || null)} type="file" accept="image/*"/>
+        <input id="file" onChange={handleImageChange} type="file" accept="image/*"/>
+        {preparingImage && <p className="image-preparation-message" role="status">Optimizing image for faster upload…</p>}
+        {imageOptimizationWarning && <p className="image-preparation-message" role="status">Image optimization wasn’t available; the original image will be uploaded.</p>}
         {error && <p className="form-feedback form-error" role="alert">The product couldn’t be saved. Please try again.</p>}
-        <button className="submit-button" type="submit" disabled={submitting}>
-            {submitting ? "Saving…" : props.operation === "Add Product" ? "Add product" : "Save changes"}
+        <button className="submit-button" type="submit" disabled={submitting || preparingImage}>
+            {preparingImage ? "Preparing image…" : submitting ? "Saving…" : props.operation === "Add Product" ? "Add product" : "Save changes"}
         </button>
     </form> 
     </section>
